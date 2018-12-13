@@ -43,51 +43,51 @@ static void RCC_Config(void)
 #if 0	
 	ErrorStatus HSEStartUpStatus;
 
-	/*将外设RCC寄存器重设为缺省值*/
+	/*������RCC�Ĵ�������Ϊȱʡֵ*/
 	RCC_DeInit();
 
-	/*设置外部高速晶振（HSE）*/
+	/*�����ⲿ���پ���HSE��*/
 	RCC_HSEConfig(RCC_HSE_ON);
 
-	/*等待HSE起振*/
+	/*�ȴ�HSE����*/
 	HSEStartUpStatus = RCC_WaitForHSEStartUp();
 
-	/*SUCCESS：HSE晶振稳定且就绪*/
+	/*SUCCESS��HSE�����ȶ��Ҿ���*/
 	if(HSEStartUpStatus == SUCCESS)
 	{
-		/*设置AHB时钟（HCLK）*/ 
-		RCC_HCLKConfig(RCC_SYSCLK_Div1);  //RCC_SYSCLK_Div1——AHB时钟= 系统时钟
+		/*����AHBʱ�ӣ�HCLK��*/ 
+		RCC_HCLKConfig(RCC_SYSCLK_Div1);  //RCC_SYSCLK_Div1����AHBʱ��= ϵͳʱ��
 
-		/* 设置高速AHB时钟（PCLK2）*/ 
-		RCC_PCLK2Config(RCC_HCLK_Div1);   //RCC_HCLK_Div1——APB2时钟= HCLK
+		/* ���ø���AHBʱ�ӣ�PCLK2��*/ 
+		RCC_PCLK2Config(RCC_HCLK_Div1);   //RCC_HCLK_Div1����APB2ʱ��= HCLK
 
-		/*设置低速AHB时钟（PCLK1）*/    
-		RCC_PCLK1Config(RCC_HCLK_Div1);   //RCC_HCLK_Div2——APB1时钟= HCLK / 2
+		/*���õ���AHBʱ�ӣ�PCLK1��*/    
+		RCC_PCLK1Config(RCC_HCLK_Div1);   //RCC_HCLK_Div2����APB1ʱ��= HCLK / 2
 
-		/*设置FLASH存储器延时时钟周期数*/
-		FLASH_SetLatency(FLASH_Latency_2);    //FLASH_Latency_2  2延时周期
+		/*����FLASH�洢����ʱʱ��������*/
+		FLASH_SetLatency(FLASH_Latency_2);    //FLASH_Latency_2  2��ʱ����
 
-		/*选择FLASH预取指缓存的模式*/  
-		FLASH_PrefetchBufferCmd(FLASH_PrefetchBuffer_Enable);       // 预取指缓存使能
+		/*ѡ��FLASHԤȡָ�����ģʽ*/  
+		FLASH_PrefetchBufferCmd(FLASH_PrefetchBuffer_Enable);       // Ԥȡָ����ʹ��
 
-		/*设置PLL时钟源及倍频系数*/ 
+		/*����PLLʱ��Դ����Ƶϵ��*/ 
 		RCC_PLLConfig(RCC_PLLSource_HSE_Div3, RCC_PLLMul_3);     
-		// PLL的输入时钟= HSE时钟频率；RCC_PLLMul_9——PLL输入时钟x 9
+		// PLL������ʱ��= HSEʱ��Ƶ�ʣ�RCC_PLLMul_9����PLL����ʱ��x 9
 
-		/*使能PLL */
+		/*ʹ��PLL */
 		RCC_PLLCmd(ENABLE); 
 
-		/*检查指定的RCC标志位(PLL准备好标志)设置与否*/   
+		/*���ָ����RCC��־λ(PLL׼���ñ�־)�������*/   
 		while(RCC_GetFlagStatus(RCC_FLAG_PLLRDY) == RESET)      
 		{
 		}
 
-		/*设置系统时钟（SYSCLK）*/ 
+		/*����ϵͳʱ�ӣ�SYSCLK��*/ 
 		RCC_SYSCLKConfig(RCC_SYSCLKSource_PLLCLK); 
-		//RCC_SYSCLKSource_PLLCLK——选择PLL作为系统时钟
+		//RCC_SYSCLKSource_PLLCLK����ѡ��PLL��Ϊϵͳʱ��
 
-		/* PLL返回用作系统时钟的时钟源*/
-		while(RCC_GetSYSCLKSource() != 0x08)        //0x08：PLL作为系统时钟
+		/* PLL��������ϵͳʱ�ӵ�ʱ��Դ*/
+		while(RCC_GetSYSCLKSource() != 0x08)        //0x08��PLL��Ϊϵͳʱ��
 		{ 
 		}
 	}
