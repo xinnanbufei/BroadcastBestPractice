@@ -7,7 +7,7 @@
 #include "wifi_rfid_reader_pn532.h"
 #include "wifi_rfid_reader_flash.h"
 #include "wifi_rfid_reader_user.h"
-#include "wifi_rfid_reader_sam.h"
+#include "wifi_rfid_reader_sam_ftw.h"
 
 
 
@@ -27,9 +27,15 @@ void Wifi_Reader_Init(void)
 	Timer2_Configuration();
 	Flash_W25QXX_Configuration();
 	WiFi_Reader_Parameter();
+	add_test();
 	PN532_Configuration();
 	SAM_Power_On_Driver();
-	
+	if(abc)
+	{
+		abc = 3;
+		ced = 5;
+		abcc = 232;
+	}
 	//IWDG_Configuration();
 }
 #if 0
