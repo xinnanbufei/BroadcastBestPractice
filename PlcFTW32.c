@@ -3,7 +3,7 @@
 #include "wifi_rfid_reader_uart.h"
 #include "wifi_rfid_reader_readcard.h"
 #include "Sha256Calc.h"
-
+#include "BYD256.h"
 
 
 int sendSAMcount = 0;
@@ -31,6 +31,7 @@ char ret_sam = 0;
 uint8_t* dg_src = NULL;
 uint8_t  dg1_hash_pth[32],dg11_hash_pth[32],dg15_hash_pth[32];
 
+uint8_t BYD256_Struct;
 
 
 /******************************SAM - AES********************************/
@@ -45,6 +46,11 @@ int DGHASH_CPM_ECC1(uint8_t *dg1,uint8_t *dg2,uint8_t *dg3,uint8_t *hash)
 	if(0 != memcmp(dg2,&hash[57],32))
 	{
 		Uart3_Printf("memcmp dg2\n");
+		return -1;
+	}
+	if(0 != memcmp(dg2,&hash[66],32))
+	{
+		Uart3_Printf("BYD256 memcmp dg2\n");
 		return -1;
 	}
 #if 1
@@ -77,6 +83,11 @@ int DGHASH_CPM_ECC2(uint8_t *dg1,uint8_t *dg2,uint8_t *dg3,uint8_t *hash)
 	}
 #endif
 	return 0;
+}
+
+int BYD_Add(int m, int n)
+{
+	return m+n;
 }
 
 int DG_HASH(uint8_t *buffer,uint8_t *dg,uint8_t *dg_hash,int len)
